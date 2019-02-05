@@ -1,8 +1,8 @@
 # DryCrudJsonapi
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/dry_crud_jsonapi`. To experiment with that code, run `bin/console` for an interactive prompt.
+This Gem adds a json:api to a rails application which is build with [`dry_crud`].
 
-TODO: Delete this and the text above, and describe your gem
+Currently only read operations are implmeneted.
 
 ## Installation
 
@@ -22,7 +22,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Include the module `DryCrudJsonapi` in all controller you want to expose on the json:api
+
+    class EmployeesController < CrudController
+      include DryCrudJsonapi
+      
+      ...
+    end
+
+The controller must implement (or inherit) at least the following methods:
+
+* `model_class`
+* `entry`
+* `entries`
+
+Consult the [`dry_crud`] sourcecode about how these work, or just inherit your controller from `dry_crud`'s `CrudController`. 
 
 ## Development
 
@@ -32,8 +46,11 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/dzubi/dry_crud_jsonapi.
+Bug reports and pull requests are welcome on GitHub at https://github.com/puzzle/dry_crud_jsonapi.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+
+[`dry_crud`]: https://github.com/codez/dry_crud
