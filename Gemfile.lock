@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dry_crud_jsonapi (0.1.0)
+    dry_crud_jsonapi (0.1.1)
       jsonapi-rails (~> 0.3.1)
       rails (~> 5.0)
 
@@ -56,7 +56,7 @@ GEM
     erubi (1.8.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    i18n (1.5.2)
+    i18n (1.5.3)
       concurrent-ruby (~> 1.0)
     jsonapi-deserializable (0.2.0)
     jsonapi-parser (0.1.1)
