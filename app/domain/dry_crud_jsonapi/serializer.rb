@@ -44,7 +44,7 @@ module DryCrudJsonapi
     end
 
     def define_has_one_relations
-      reflections(for_type(:has_one)).each do |reflection|
+      reflections(:has_one).each do |reflection|
         define_conditional(:has_one, reflection.name.to_s) do
           data { @object.send(reflection.name) }
         end
@@ -52,7 +52,7 @@ module DryCrudJsonapi
     end
 
     def define_belongs_to_relations
-      reflections(for_type(:belongs_to)).each do |reflection|
+      reflections(:belongs_to).each do |reflection|
         define_conditional(:belongs_to, reflection.name.to_s) do
           data { @object.send(reflection.name) }
         end
@@ -60,11 +60,10 @@ module DryCrudJsonapi
     end
 
     def define_has_many_relations(type)
-      reflections(for_type(type)).each do |reflection|
+      reflections(type).each do |reflection|
         define_conditional(:has_many, reflection.name) do
-          link(:related) do
-            @controller.rescued_polymorphic_path([@object, reflection.name])
-          end
+          path = @controller.rescued_polymorphic_path([@object, reflection.name])
+          link(:related) { path } if path
         end
       end
     end
@@ -80,15 +79,9 @@ module DryCrudJsonapi
       end
     end
 
-    def for_type(type)
-      "ActiveRecord::Reflection::#{type.to_s.camelcase}Reflection".constantize
-    end
-
     def reflections(type)
       @reflections ||= {}
-      @reflections[type] ||= model_class.reflect_on_all_associations.select do |reflection|
-        reflection.is_a?(type)
-      end
+      @reflections[type] ||= model_class.reflect_on_all_associations(type)
     end
   end
 end
